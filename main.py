@@ -112,7 +112,7 @@ home_button_2 = tk.Button(button_frame_home, text="Meditation Exercises", bg="#2
 home_button_2.pack(fill="x", pady=20)
 home_button_3 = tk.Button(button_frame_home, text="How Stressed Am I?", bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", relief="groove", font=("Helvetica", 22),  command = lambda:swapFrame(quiz_frame))
 home_button_3.pack(fill="x", pady=20)
-home_button_4 = tk.Button(button_frame_home, text="Monitor Your Stress", bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", relief="groove", font=("Helvetica", 22),  command = lambda:swapFrame(error_frame))
+home_button_4 = tk.Button(button_frame_home, text="Monitor Your Stress", bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", relief="groove", font=("Helvetica", 22),  command = lambda:swapFrame(review_frame))
 home_button_4.pack(fill="x", pady=20)
 
 
@@ -536,7 +536,7 @@ quiz_lt_label.pack(pady=10, padx=10)
 quiz_lt_button.pack(fill="x", padx=10)
 
 quiz_rv_label = tk.Label(qstart_rev_frame, text="What Are Your\nStress Patterns?", font=("Helvetica", 16, "bold"), bg="#E7F4F5")
-quiz_rv_button = tk.Button(qstart_rev_frame, text="Review Your Stress", font=("Helvetica", 16), bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", command = lambda:swapFrame(error_frame))
+quiz_rv_button = tk.Button(qstart_rev_frame, text="Review Your Stress", font=("Helvetica", 16), bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", command = lambda:swapFrame(review_frame))
 quiz_rv_label.pack(pady=10, padx=10)
 quiz_rv_button.pack(fill="x", padx=10)
 
@@ -632,7 +632,7 @@ ltquiz_question_frame.pack()
 ltquiz_question_frame.place(relx=0.5, rely=0, anchor=tk.N)
 
 ltquiz_label1 = tk.Label(ltquiz_question_frame, text="Rate how often the statement\nbelow applies to you on a\nweekly basis", font=("Helvetica", 14, "bold"), bg="#E7F4F5")
-ltquiz_question = tk.Label(ltquiz_question_frame, text="This is the text of question 1.", font=("Helvetica", 14, "bold"), bg="#E7F4F5")
+ltquiz_question = tk.Label(ltquiz_question_frame, text="I feel like I have way\ntoo many things to do.", font=("Helvetica", 14, "bold"), bg="#E7F4F5")
 ltquiz_answer_frame = tk.Frame(ltquiz_question_frame, bg="#E7F4F5")
 ltquiz_label1.pack(pady=20)
 ltquiz_question.pack()
@@ -656,15 +656,15 @@ def runLTQuiz(question_label, weight):
         countLTQuiz(weight)
         ltq_iter += 1
     elif ltq_iter == 1:
-        question_label["text"] = "This is the text of question 2."
+        question_label["text"] = "I have noticed that I am\nsleeping less or more often\nthan I used to."
         ltq_iter += 1
         countLTQuiz(weight)
     elif ltq_iter == 2:
-        question_label["text"] = "This is the text of question 3."
+        question_label["text"] = "I feel physically tired most\nof the time, even when I\nhaven't exerted myself."
         ltq_iter += 1
         countLTQuiz(weight)
     elif ltq_iter == 3:
-        question_label["text"] = "This is the text of question 4."
+        question_label["text"] = "I'm too busy to spend\ntime with friends and family."
         ltq_iter += 1
         countLTQuiz(weight)
     elif ltq_iter == 4:
@@ -672,7 +672,7 @@ def runLTQuiz(question_label, weight):
         countLTQuiz(weight)
         endLTQuiz(ltquiz_score)
         swapFrame(ltquiz_end)
-        question_label["text"] = "This is the text of question 1."
+        question_label["text"] = "I feel like I have way\ntoo many things to do."
     
 
 def countLTQuiz(weight):
@@ -726,6 +726,30 @@ ltquiz_retake_button.pack(pady=20)
 
 
 
+#Stress review screen
+review_frame = tk.Frame(body_frame, width = 450, height = 400, bg="#E7F4F5")
+review_frame.pack(fill="y")
+review_frame.place(x=0, y=0, anchor=tk.NW)
+
+review_ex_frame = tk.Frame(review_frame, bg="#E7F4F5")
+review_ex_frame.pack()
+review_ex_frame.place(relx=0.5, rely=0, anchor=tk.N)
+
+review_img_path = "resources\\review_chart.png"
+review_img_orig = Image.open(review_img_path)
+review_img_resize = review_img_orig.resize((350, 208))
+review_img = ImageTk.PhotoImage(review_img_resize)
+
+review_ex_label = tk.Label(review_ex_frame, text="Review Long-Term Stress", font=("Helvetica", 22, "bold"), bg="#E7F4F5")
+review_ex_img = tk.Label(review_ex_frame, image = review_img, compound=tk.CENTER, bg="#E7F4F5")
+review_ex_label.pack(pady=20)
+review_ex_img.pack()
+
+
+review_sync_button = tk.Button(review_ex_frame, text="Sync New Device", font=("Helvetica", 16), bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", command = lambda:swapFrame(error_frame))
+review_ins_button = tk.Button(review_ex_frame, text="Review Insights", font=("Helvetica", 16), bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", command = lambda:swapFrame(error_frame))
+review_sync_button.pack(side="left", fill="x", padx=10, pady=20)
+review_ins_button.pack(side="left", fill="x", padx=10, pady=20)
 
 
 #Error screen
