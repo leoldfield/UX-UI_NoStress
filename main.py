@@ -18,6 +18,19 @@ def play_sound():
         count-=1
     
 
+#Classes
+class User:
+    def __init__(self, name, mood):
+        self.name = name
+        self.mood = mood
+    
+    def updateName(self, newName):
+        self.name = newName
+
+    def updateMood(self, newMood):
+        self.mood = newMood
+
+
 
 #Window
 window = tk.Tk()
@@ -513,25 +526,203 @@ qstart_rev_frame= tk.Frame(qstart_frame, bg="#E7F4F5")
 qstart_rev_frame.grid(row=1, column=1, sticky="nsew", pady=20)
 
 quiz_st_label = tk.Label(qstart_st_frame, text="How Do You \nFeel Right Now?", font=("Helvetica", 20, "bold"), bg="#E7F4F5")
-quiz_st_button = tk.Button(qstart_st_frame, text="Rate Your Current Stress", font=("Helvetica", 18), bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", command = lambda:swapFrame(quiz_st_frame))
+quiz_st_button = tk.Button(qstart_st_frame, text="Rate Your Current Stress", font=("Helvetica", 18), bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", command = lambda:swapFrame(stquiz_frame))
 quiz_st_label.pack(pady=10)
 quiz_st_button.pack()
 
 quiz_lt_label = tk.Label(qstart_lt_frame, text="How Is Your Long-\nTerm Stress?", font=("Helvetica", 16, "bold"), bg="#E7F4F5")
-quiz_lt_button = tk.Button(qstart_lt_frame, text="Take Long-Term\nStress Quiz", font=("Helvetica", 16), bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", command = lambda:swapFrame(home_frame))
+quiz_lt_button = tk.Button(qstart_lt_frame, text="Take Long-Term\nStress Quiz", font=("Helvetica", 16), bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", command = lambda:swapFrame(ltquiz_start))
 quiz_lt_label.pack(pady=10, padx=10)
 quiz_lt_button.pack(fill="x", padx=10)
 
 quiz_rv_label = tk.Label(qstart_rev_frame, text="What Are Your\nStress Patterns?", font=("Helvetica", 16, "bold"), bg="#E7F4F5")
-quiz_rv_button = tk.Button(qstart_rev_frame, text="Review Your Stress", font=("Helvetica", 16), bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", command = lambda:swapFrame(home_frame))
+quiz_rv_button = tk.Button(qstart_rev_frame, text="Review Your Stress", font=("Helvetica", 16), bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", command = lambda:swapFrame(error_frame))
 quiz_rv_label.pack(pady=10, padx=10)
 quiz_rv_button.pack(fill="x", padx=10)
 
 
 #Short-Term quiz screen
-quiz_st_frame = tk.Frame(body_frame, width = 450, height = 400, bg="green")
-quiz_st_frame.pack(fill="y")
-quiz_st_frame.place(x=0, y=0, anchor=tk.NW)
+stquiz_frame = tk.Frame(body_frame, width = 450, height = 400, bg="#E7F4F5")
+stquiz_frame.pack(fill="y")
+stquiz_frame.place(x=0, y=0, anchor=tk.NW)
+
+stquiz_rating_frame = tk.Frame(stquiz_frame, bg="#E7F4F5")
+stquiz_rating_frame.pack()
+stquiz_rating_frame.place(relx=0.5, rely=0, anchor=tk.N)
+
+    #Short-term quiz images
+stquiz_face1_path = "resources\\face1.png"
+stquiz_face2_path = "resources\\face2.png"
+stquiz_face3_path = "resources\\face3.png"
+stquiz_face1_orig = Image.open(stquiz_face1_path)
+stquiz_face2_orig = Image.open(stquiz_face2_path)
+stquiz_face3_orig = Image.open(stquiz_face3_path)
+stquiz_face1_resize = stquiz_face1_orig.resize((75, 75))
+stquiz_face2_resize = stquiz_face2_orig.resize((75, 75))
+stquiz_face3_resize = stquiz_face3_orig.resize((75, 75))
+stquiz_face1 = ImageTk.PhotoImage(stquiz_face1_resize)
+stquiz_face2 = ImageTk.PhotoImage(stquiz_face2_resize)
+stquiz_face3 = ImageTk.PhotoImage(stquiz_face3_resize)
+
+stquiz_rating_frame.grid_rowconfigure(0, weight=1)
+stquiz_rating_frame.grid_rowconfigure(1, weight=1)
+stquiz_rating_frame.grid_rowconfigure(2, weight=1)
+stquiz_rating_frame.grid_rowconfigure(3, weight=1)
+stquiz_rating_frame.grid_columnconfigure(0, weight=1)
+stquiz_rating_frame.grid_columnconfigure(1, weight=1)
+stquiz_rating_frame.grid_columnconfigure(2, weight=1)
+
+def setMood(new_mood, mood_label):
+    if new_mood == "low":
+        user.mood = "low_stress"
+        mood_label["text"] = "Low Stress"
+    elif new_mood == "med":
+        user.mood = "med_stress"
+        mood_label["text"] = "Medium Stress"
+    elif new_mood == "high":
+        user.mood = "high_stress"
+        mood_label["text"] = "High Stress"
+    else:
+        user.mood = "unknown"
+        mood_label["text"] = ""
+
+stquiz_label= tk.Label(stquiz_rating_frame, text="Rate Your Current Stress:", font=("Helvetica", 22, "bold"), bg="#E7F4F5")
+stquiz_face1_button = tk.Button(stquiz_rating_frame, image = stquiz_face1, compound = tk.CENTER, width = 75, height = 75, relief="flat", font=("Helvetica", 22, "bold"), bg="#E7F4F5", fg="#1A1E2E", command = lambda:setMood("low", stquiz_curstress))
+stquiz_face2_button = tk.Button(stquiz_rating_frame, image = stquiz_face2, compound = tk.CENTER, width = 75, height = 75, relief="flat", font=("Helvetica", 22, "bold"), bg="#E7F4F5", fg="#1A1E2E", command = lambda:setMood("med", stquiz_curstress))
+stquiz_face3_button = tk.Button(stquiz_rating_frame, image = stquiz_face3, compound = tk.CENTER, width = 75, height = 75, relief="flat", font=("Helvetica", 22, "bold"), bg="#E7F4F5", fg="#1A1E2E", command = lambda:setMood("high", stquiz_curstress))
+stquiz_curstress= tk.Label(stquiz_rating_frame, text=" ", font=("Helvetica", 16, "bold"), bg="#E7F4F5")
+stquiz_return_button = tk.Button(stquiz_rating_frame, text="Return", font=("Helvetica", 16), bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", command = lambda:swapFrame(quiz_frame))
+
+stquiz_label.grid(row=0, column=0, columnspan=3, sticky="nsew", pady=20)
+stquiz_face1_button.grid(row=1, column=0, sticky="nsew", pady=20, padx=20)
+stquiz_face2_button.grid(row=1, column=1, sticky="nsew", pady=20, padx=20)
+stquiz_face3_button.grid(row=1, column=2, sticky="nsew", pady=20, padx=20)
+stquiz_curstress.grid(row=2, column=0, columnspan=3, sticky="nsew", pady=20)
+stquiz_return_button.grid(row=3, column=0, columnspan=3, sticky="nsew", pady=20)
+
+
+
+
+#Long-Term quiz start screen
+ltquiz_start = tk.Frame(body_frame, width = 450, height = 400, bg="#E7F4F5")
+ltquiz_start.pack(fill="y")
+ltquiz_start.place(x=0, y=0, anchor=tk.NW)
+
+ltquiz_start_frame = tk.Frame(ltquiz_start, bg="#E7F4F5")
+ltquiz_start_frame.pack()
+ltquiz_start_frame.place(relx=0.5, rely=0, anchor=tk.N)
+
+ltquiz_start_button = tk.Button(ltquiz_start_frame, text="Start Long-Term\nStress Quiz", font=("Helvetica", 22, "bold"), bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", command = lambda:runLTQuiz(ltquiz_question, 0))
+ltquiz_return_button = tk.Button(ltquiz_start_frame, text="Return", font=("Helvetica", 22, "bold"), bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", command = lambda:swapFrame(quiz_frame))
+ltquiz_start_button.pack(fill="x", pady=20)
+ltquiz_return_button.pack(fill="x", pady=20)
+
+
+#Long-Term quiz screen
+ltquiz_frame = tk.Frame(body_frame, width = 450, height = 400, bg="#E7F4F5")
+ltquiz_frame.pack(fill="y")
+ltquiz_frame.place(x=0, y=0, anchor=tk.NW)
+
+ltquiz_start_frame = tk.Frame(ltquiz_frame, bg="red")
+ltquiz_start_frame.pack()
+ltquiz_start_frame.place(relx=0.5, rely=0, anchor=tk.N)
+
+ltquiz_question_frame = tk.Frame(ltquiz_frame, bg="#E7F4F5")
+ltquiz_question_frame.pack()
+ltquiz_question_frame.place(relx=0.5, rely=0, anchor=tk.N)
+
+ltquiz_label1 = tk.Label(ltquiz_question_frame, text="Rate how often the statement\nbelow applies to you on a\nweekly basis", font=("Helvetica", 14, "bold"), bg="#E7F4F5")
+ltquiz_question = tk.Label(ltquiz_question_frame, text="This is the text of question 1.", font=("Helvetica", 14, "bold"), bg="#E7F4F5")
+ltquiz_answer_frame = tk.Frame(ltquiz_question_frame, bg="#E7F4F5")
+ltquiz_label1.pack(pady=20)
+ltquiz_question.pack()
+ltquiz_answer_frame.pack(pady=20)
+
+ltquiz_answer_frame.grid_columnconfigure(0, weight=1)
+ltquiz_answer_frame.grid_columnconfigure(1, weight=1)
+ltquiz_answer_frame.grid_columnconfigure(2, weight=1)
+ltquiz_answer_frame.grid_columnconfigure(3, weight=1)
+ltquiz_answer_frame.grid_columnconfigure(4, weight=1)
+ltquiz_answer_frame.grid_columnconfigure(5, weight=1)
+ltquiz_answer_frame.grid_rowconfigure(0, weight=1)
+
+ltq_iter = 0
+ltq_score = 0
+
+def runLTQuiz(question_label, weight):
+    ltquiz_frame.tkraise()
+    global ltq_iter
+    if ltq_iter == 0:
+        countLTQuiz(weight)
+        ltq_iter += 1
+    elif ltq_iter == 1:
+        question_label["text"] = "This is the text of question 2."
+        ltq_iter += 1
+        countLTQuiz(weight)
+    elif ltq_iter == 2:
+        question_label["text"] = "This is the text of question 3."
+        ltq_iter += 1
+        countLTQuiz(weight)
+    elif ltq_iter == 3:
+        question_label["text"] = "This is the text of question 4."
+        ltq_iter += 1
+        countLTQuiz(weight)
+    elif ltq_iter == 4:
+        ltq_iter = 0
+        countLTQuiz(weight)
+        endLTQuiz(ltquiz_score)
+        swapFrame(ltquiz_end)
+        question_label["text"] = "This is the text of question 1."
+    
+
+def countLTQuiz(weight):
+    global ltq_score
+    ltq_score += weight
+    print(ltq_score)
+    
+
+ltquiz_answer1_button = tk.Button(ltquiz_answer_frame, text="Almost\nNever", width = 7, height = 2, relief="groove", font=("Helvetica", 10, "bold"), bg="#E7F4F5", fg="#1A1E2E", activebackground="#234265", activeforeground="white", command = lambda:runLTQuiz(ltquiz_question, -2))
+ltquiz_answer2_button = tk.Button(ltquiz_answer_frame, text="Rarely", width = 7, height = 2, relief="groove", font=("Helvetica", 10, "bold"), bg="#E7F4F5", fg="#1A1E2E", activebackground="#234265", activeforeground="white", command = lambda:runLTQuiz(ltquiz_question, -1))
+ltquiz_answer3_button = tk.Button(ltquiz_answer_frame, text="Some-\ntimes", width = 7, height = 2, relief="groove", font=("Helvetica", 10, "bold"), bg="#E7F4F5", fg="#1A1E2E", activebackground="#234265", activeforeground="white", command = lambda:runLTQuiz(ltquiz_question, 0))
+ltquiz_answer4_button = tk.Button(ltquiz_answer_frame, text="Often", width = 7, height = 2, relief="groove", font=("Helvetica", 10, "bold"), bg="#E7F4F5", fg="#1A1E2E", activebackground="#234265", activeforeground="white", command = lambda:runLTQuiz(ltquiz_question, 1))
+ltquiz_answer5_button = tk.Button(ltquiz_answer_frame, text="Very\nOften", width = 7, height = 2, relief="groove", font=("Helvetica", 10, "bold"), bg="#E7F4F5", fg="#1A1E2E", activebackground="#234265", activeforeground="white", command = lambda:runLTQuiz(ltquiz_question, 2))
+
+ltquiz_answer1_button.grid(row=0, column=0, sticky="nsew", pady=20, padx=5)
+ltquiz_answer2_button.grid(row=0, column=1, sticky="nsew", pady=20, padx=5)
+ltquiz_answer3_button.grid(row=0, column=2, sticky="nsew", pady=20, padx=5)
+ltquiz_answer4_button.grid(row=0, column=3, sticky="nsew", pady=20, padx=5)
+ltquiz_answer5_button.grid(row=0, column=4, sticky="nsew", pady=20, padx=5)
+
+
+
+
+#Long-Term quiz end screen
+ltquiz_end = tk.Frame(body_frame, width = 450, height = 400, bg="#E7F4F5")
+ltquiz_end.pack(fill="y")
+ltquiz_end.place(x=0, y=0, anchor=tk.NW)
+
+ltquiz_end_frame = tk.Frame(ltquiz_end, bg="#E7F4F5")
+ltquiz_end_frame.pack()
+ltquiz_end_frame.place(relx=0.5, rely=0, anchor=tk.N)
+
+def endLTQuiz(score_label):
+    global ltq_score
+    if ltq_score < 3:
+        score_label["text"] = str(ltq_score) + "\n(low)"
+    if -2 < ltq_score < 2:
+        score_label["text"] = str(ltq_score) + "\n(medium)"
+    if ltq_score > 3:
+        score_label["text"] = str(ltq_score) + " \n(high)"
+    ltq_score = 0
+
+
+ltquiz_label = tk.Label(ltquiz_end_frame, text="Your Stress Score:", font=("Helvetica", 22, "bold"), bg="#E7F4F5")
+ltquiz_score = tk.Label(ltquiz_end_frame, text="Your Score", font=("Helvetica", 22, "bold"), bg="#E7F4F5")
+ltquiz_label.pack(pady=20)
+ltquiz_score.pack()
+
+ltquiz_retake_button = tk.Button(ltquiz_end_frame, text="Retake Quiz", font=("Helvetica", 16), bg="#205B95", fg="white", activebackground="#234265", activeforeground="white", command = lambda:swapFrame(ltquiz_start))
+ltquiz_retake_button.pack(pady=20)
 
 
 
@@ -539,7 +730,7 @@ quiz_st_frame.place(x=0, y=0, anchor=tk.NW)
 
 #Error screen
 error_frame = tk.Frame(body_frame, width = 450, height = 400, bg="#E7F4F5")
-error_frame.pack()
+error_frame.pack(fill="y")
 error_frame.place(x=0, y=0, anchor=tk.NW)
 
 error_button_frame = tk.Frame(error_frame, bg="#E7F4F5")
@@ -556,5 +747,6 @@ error_button.pack()
 #run
 if __name__ == "__main__":
     home_frame.tkraise()
+    user = User("unknown", "unknown")
     window.mainloop()
     
